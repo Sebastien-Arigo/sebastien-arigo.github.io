@@ -1077,7 +1077,7 @@
     reveals.forEach(el => observer.observe(el));
 
     // Form submit simulation
-    function submitForm() {
+    /*function submitForm() {
       const email = document.getElementById('email').value.trim();
       if (!email || !email.includes('@')) {
         document.getElementById('email').style.borderColor = '#e57373';
@@ -1086,6 +1086,33 @@
       }
       document.getElementById('formContent').style.display = 'none';
       document.getElementById('formSuccess').classList.add('visible');
+    }*/
+    async function submitForm() {
+      const email = document.getElementById('email').value.trim();
+        if (!email || !email.includes('@')) {
+          document.getElementById('email').style.borderColor = '#e57373';
+          document.getElementById('email').focus();
+          return;
+        }
+      const data = {
+        prenom:  document.getElementById('fname').value,
+        nom:     document.getElementById('lname').value,
+        email:   email,
+        sujet:   document.getElementById('subject').value,
+        message: document.getElementById('message').value,
+        newsletter: document.getElementById('newsletter').checked ? 'oui' : 'non'
+      };
+    const res = await fetch('https://formspree.io/f/xzdkebdg', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+      });
+    if (res.ok) {
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('visible');
+      } else {
+      alert('Une erreur est survenue. Réessaie ou contacte-moi par e-mail.');
+      }
     }
   </script>
 </body>
